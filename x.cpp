@@ -19,7 +19,7 @@ class mySysInterface: public Rocket::Core::SystemInterface {
         start = clock();
     };
     virtual float GetElapsedTime(){
-        float delta = clock()-start;
+        float delta = clock()-start/CLOCKS_PER_SEC;
         printf("%f\n",delta);
         return 0;
     };
