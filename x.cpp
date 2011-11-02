@@ -135,14 +135,42 @@ int main(int argc, char *argv[]) {
     
     //do the main loop, equal to run() in python
     int run = 1;
+    
+    
+    // Load the environment model.
+    NodePath environ = window->load_model(framework.get_models(), "models/environment");
+    // Reparent the model to render.
+    environ.reparent_to(window->get_render());
+    // Apply scale and position transforms to the model.
+    environ.set_scale(0.25, 0.25, 0.25);
+    environ.set_pos(-58, 550, -550);
+
+
     AsyncTaskManager *taskMgr = AsyncTaskManager::get_global_ptr();
     while(run){
-    //taskMgr->poll();
-    context->Update();
+    
+    
+    taskMgr->poll();
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, 800, 600, 0, -100, 10000000);
+	
+	context->Update();
+	
 	context->Render();
+    	
+	usleep(5000);
+	
 	glXSwapBuffers(display, mywindow);
 
-            
+    
+           
     }
     //close the window framework
     framework.close_framework();

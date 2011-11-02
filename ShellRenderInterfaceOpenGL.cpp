@@ -55,7 +55,6 @@ void ShellRenderInterfaceOpenGL::RenderGeometry(Rocket::Core::Vertex* vertices, 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &(vertices->tex_coord.x));
 	}
-    printf("magarac\n");
 	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, indices);
 	glPopMatrix();
 }
