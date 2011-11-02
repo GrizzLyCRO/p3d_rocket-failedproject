@@ -1,3 +1,5 @@
 /.sconsign.dblite
 /x
 /x.o
+/ShellRenderInterfaceOpenGL
+/ShellRenderInterfaceOpenGL.o

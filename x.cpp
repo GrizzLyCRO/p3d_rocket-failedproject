@@ -5,6 +5,8 @@
 #include "pandaFramework.h"
 #include "pandaSystem.h"
 #include <Rocket/Core/RenderInterface.h>
+#include "ShellRenderInterfaceOpenGL.h"
+#define ROCKET_PLATFORM_UNIX
 PandaFramework framework;
 
 using namespace std;
@@ -42,15 +44,27 @@ int main(int argc, char *argv[]) {
     
     
     //LibRocket Setup Step 2 => Render Interface
+    ShellRenderInterfaceOpenGL opengl_renderer;
+	Rocket::Core::SetRenderInterface(&opengl_renderer);
     
-    
+    //LibRocket Setup Step 3 => Initialize
+    Rocket::Core::Initialise();
     
     //LibRocket Setup Step 4 => Create Context
     Rocket::Core::Vector2i dim = Rocket::Core::Vector2i(800,600);
     Rocket::Core::Context* context = Rocket::Core::CreateContext("default", dim);
+    
+    printf("sex\n");
 
     //Load Document
     Rocket::Core::ElementDocument* document = context -> LoadDocument("demo.rml");
+    
+	if (document != NULL)
+	{
+	    printf("sex2222\n");
+		document->Show();
+		document->RemoveReference();
+	}
     
     //do the main loop, equal to run() in python
     framework.main_loop();

@@ -28,7 +28,7 @@
 #ifndef ROCKETSHELLRENDERINTERFACE_H
 #define ROCKETSHELLRENDERINTERFACE_H
 
-#include "Rocket/Core/RenderInterface.h"
+#include <Rocket/Core/RenderInterface.h>
 #include "ShellOpenGL.h"
 
 /**
@@ -36,8 +36,10 @@
 	@author Peter Curry
  */
 
-class ShellRenderInterfaceOpenGL : public Rocket::Core::RenderInterface
-{
+class ShellRenderInterfaceOpenGL : public Rocket::Core::RenderInterface{
+
+
+
 public:
 	ShellRenderInterfaceOpenGL();
 
