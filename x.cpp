@@ -54,11 +54,43 @@ int main(int argc, char *argv[]) {
 
 
     //setup window and opengl context
-    //mywindow = window->get_graphics_window()->get_window_handle()->get_int_handle();
+    mywindow = window->get_graphics_window()->get_window_handle()->get_int_handle();
 
 
     // Set up the GL state.
-	glClearColor(0, 0, 0, 1);
+    //================================================================================
+	display = XOpenDisplay(0);
+	if (display == NULL)
+		return false;
+
+	screen = XDefaultScreen(display);
+
+	// Fetch an appropriate 32-bit visual interface.
+	int attribute_list[] = {GLX_RGBA,
+							GLX_DOUBLEBUFFER,
+							GLX_RED_SIZE, 8,
+							GLX_GREEN_SIZE, 8,
+							GLX_BLUE_SIZE, 8,
+							GLX_DEPTH_SIZE, 24,
+							None};
+
+	visual_info = glXChooseVisual(display, screen, attribute_list);
+	if (visual_info == NULL)
+	{
+		return false;
+  	}printf("OpenGL\n");
+  	gl_context = glXCreateContext(display, visual_info, NULL, GL_TRUE);
+	if (gl_context == NULL)
+		return false;
+    printf("OpenGL2\n");
+	glXMakeCurrent(display, mywindow, gl_context);
+    printf("OpenGL3\n");
+	if (!glXIsDirect(display, gl_context))
+		printf("OpenGL context does not support direct rendering; performance is likely to be poor.\n");
+  	//================================================================================
+  	//End openggl magic
+    printf("OpenGL4\n");
+	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
@@ -108,6 +140,7 @@ int main(int argc, char *argv[]) {
     //taskMgr->poll();
     context->Update();
 	context->Render();
+	glXSwapBuffers(display, mywindow);
 
             
     }

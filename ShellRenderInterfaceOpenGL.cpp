@@ -55,12 +55,9 @@ void ShellRenderInterfaceOpenGL::RenderGeometry(Rocket::Core::Vertex* vertices, 
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &(vertices->tex_coord.x));
 	}
-    glClearColor(1, 0, 0, 1);
     printf("magarac\n");
 	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, indices);
-    glClearColor(1, 0, 0, 1);
 	glPopMatrix();
-	glClearColor(1, 0, 0, 1);
 }
 
 // Called by Rocket when it wants to compile geometry it believes will be static for the forseeable future.		
