@@ -6,10 +6,23 @@
 #include "pandaSystem.h"
 #include <Rocket/Core/RenderInterface.h>
 #include "ShellRenderInterfaceOpenGL.h"
+#include <X11/Xlib.h>
+#include <GL/glx.h>
+#include <GL/gl.h>
 #define ROCKET_PLATFORM_UNIX
 PandaFramework framework;
 
 using namespace std;
+
+
+static bool running = false;
+static Display* display = NULL;
+static int screen = -1;
+static XVisualInfo* visual_info = NULL;
+static Window mywindow = 0;
+static GLXContext gl_context = NULL;
+static timeval start_time;
+
 
 class mySysInterface: public Rocket::Core::SystemInterface {
 
@@ -38,6 +51,26 @@ int main(int argc, char *argv[]) {
     WindowFramework *window = framework.open_window();
  
     //here is room for your own code
+
+
+    //setup window and opengl context
+    //mywindow = window->get_graphics_window()->get_window_handle()->get_int_handle();
+
+
+    // Set up the GL state.
+	glClearColor(0, 0, 0, 1);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, 800, 600, 0, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
 
     //LibRocket Setup Step 1 => System Interface
@@ -72,10 +105,10 @@ int main(int argc, char *argv[]) {
     int run = 1;
     AsyncTaskManager *taskMgr = AsyncTaskManager::get_global_ptr();
     while(run){
-        
+    //taskMgr->poll();
     context->Update();
 	context->Render();
-	taskMgr->poll();
+
             
     }
     //close the window framework

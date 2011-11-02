@@ -40,8 +40,8 @@ void ShellRenderInterfaceOpenGL::RenderGeometry(Rocket::Core::Vertex* vertices, 
 	glPushMatrix();
 	glTranslatef(translation.x, translation.y, 0);
 
-	glVertexPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &vertices[0].position);
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), &vertices[0].colour);
+	glVertexPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &(vertices->position.x));
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), &(vertices->colour.red));
 
 	if (!texture)
 	{
@@ -53,12 +53,14 @@ void ShellRenderInterfaceOpenGL::RenderGeometry(Rocket::Core::Vertex* vertices, 
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, (GLuint) texture);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &vertices[0].tex_coord);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &(vertices->tex_coord.x));
 	}
-
+    glClearColor(1, 0, 0, 1);
+    printf("magarac\n");
 	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, indices);
-
+    glClearColor(1, 0, 0, 1);
 	glPopMatrix();
+	glClearColor(1, 0, 0, 1);
 }
 
 // Called by Rocket when it wants to compile geometry it believes will be static for the forseeable future.		
