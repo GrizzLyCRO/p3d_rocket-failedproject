@@ -65,7 +65,6 @@ int main(int argc, char *argv[]) {
 	{
 	    printf("sex2222\n");
 		document->Show();
-		document->RemoveReference();
 		
 	}
     
