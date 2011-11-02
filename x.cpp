@@ -27,12 +27,7 @@ class mySysInterface: public Rocket::Core::SystemInterface {
     };
 };
 
-AsyncTask::DoneStatus updateTask(GenericAsyncTask* task, void* data) {
-    printf("update\n");
-    context->Update();
-	context->Render();
-    return AsyncTask::DS_cont;
-}
+
 
 int main(int argc, char *argv[]) {
     //Panda Setup
@@ -71,15 +66,19 @@ int main(int argc, char *argv[]) {
 	    printf("sex2222\n");
 		document->Show();
 		document->RemoveReference();
-		PT(AsyncTaskManager) taskMgr = AsyncTaskManager::get_global_ptr();
-		PT(GenericAsyncTask) task;
-        task = new GenericAsyncTask("MyTaskName", &updateTask, (void*) NULL);
-         
-        taskMgr->add(task);
+		
 	}
     
     //do the main loop, equal to run() in python
-    framework.main_loop();
+    int run = 1;
+    AsyncTaskManager *taskMgr = AsyncTaskManager::get_global_ptr();
+    while(run){
+        
+    context->Update();
+	context->Render();
+	taskMgr->poll();
+            
+    }
     //close the window framework
     framework.close_framework();
 
